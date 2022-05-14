@@ -4,7 +4,7 @@ metadata:
 attributes:
   controller.devfile.io/storage-type: ephemeral
 components:
-  - name: frontend
+  - name: afrontend
     container:
       image: quay.io/devfile/universal-developer-image:ubi8-latest
       args: ["/checode/entrypoint-volume.sh"]
@@ -155,7 +155,7 @@ components:
 commands:
   - id: init-project
     exec:
-      component: frontend
+      component: afrontend
       commandLine: yarn install
       workingDir: $PROJECT_SOURCE
 events:
