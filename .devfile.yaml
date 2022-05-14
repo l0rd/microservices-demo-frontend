@@ -47,10 +47,10 @@ components:
         - '-c'
         - 'sleep 30 && /app -port 8080 -DSN "catalogue_user:default_password@tcp(localhost:3306)/socksdb"'
         # - 'sleep 30 && /app -port 8080 -DSN "catalogue_user:default_password@tcp(catalogue-db:3306)/socksdb"'
-      # endpoints:
-      #   - name: catalogue
-      #     targetPort: 8080
-      #     exposure: internal
+      endpoints:
+        - name: catalogue
+          targetPort: 8080
+          exposure: internal
   - name: catalogue-db
     container:
       image: weaveworksdemos/catalogue-db:0.3.0
@@ -66,10 +66,10 @@ components:
       volumeMounts:
         - name: catalogue-volume
           path: /var/lib/mysql
-      # endpoints:
-      #   - name: catalogue-db
-      #     targetPort: 3360
-      #     exposure: internal
+      endpoints:
+        - name: catalogue-db
+          targetPort: 3360
+          exposure: internal
   - name: catalogue-volume
     volume:
       ephemeral: true
@@ -152,3 +152,12 @@ components:
   #     env:
   #       - name: reschedule
   #         value: on-node-failure
+commands:
+  - id: init-project
+    exec:
+      component: frontend
+      commandLine: yarn install
+      workingDir: $PROJECT_SOURCE
+events:
+  postStart:
+    - init-project
