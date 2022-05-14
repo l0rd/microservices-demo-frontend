@@ -19,21 +19,6 @@ components:
       endpoints:
         - name: frontend
           targetPort: 8079
-        # - name: nodejs
-        #   targetPort: 3000
-    # attributes:
-    #   che-code.eclipse.org/contribute-entry-point: true
-    #   che-code.eclipse.org/contribute-volume-mount/checode: /checode
-    #   che-code.eclipse.org/contribute-endpoint/che-code: 3100
-    #   che-code.eclipse.org/contribute-endpoint/code-redirect-1: 13131
-    #   che-code.eclipse.org/contribute-endpoint/code-redirect-2: 13132
-    #   che-code.eclipse.org/contribute-endpoint/code-redirect-3: 13133
-    #   che-code.eclipse.org/contribute-memoryLimit: true
-    #   che-code.eclipse.org/original-memoryLimit: 1G
-    #   che-code.eclipse.org/contribute-memoryRequest: true
-    #   che-code.eclipse.org/contribute-cpuLimit: true
-    #   che-code.eclipse.org/contribute-cpuRequest: true
-    #   che-code.eclipse.org/contributed-container: tools
   - name: catalogue
     container:
       image: weaveworksdemos/catalogue:0.3.5
