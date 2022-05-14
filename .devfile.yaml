@@ -6,9 +6,7 @@ attributes:
 components:
   - name: afrontend
     container:
-      image: quay.io/devfile/universal-developer-image:ubi8-latest
-      args: ["/checode/entrypoint-volume.sh"]
-      env: [{name: CODE_HOST, value: "0.0.0.0"}]
+      image: quay.io/mloriedo/microservices-demo-frontend:latest
       volumeMounts:
         - name: checode
           path: /checode
@@ -19,6 +17,8 @@ components:
       endpoints:
         - name: frontend
           targetPort: 8079
+      args: ["/checode/entrypoint-volume.sh"]
+      env: [{name: CODE_HOST, value: "0.0.0.0"}]
   - name: catalogue
     container:
       image: weaveworksdemos/catalogue:0.3.5
