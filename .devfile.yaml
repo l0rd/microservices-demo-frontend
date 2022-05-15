@@ -4,7 +4,7 @@ metadata:
 attributes:
   controller.devfile.io/storage-type: ephemeral
 components:
-  - name: afrontend
+  - name: frontend
     container:
       image: quay.io/mloriedo/microservices-demo-frontend:latest
       volumeMounts:
@@ -31,7 +31,6 @@ components:
       args:
         - '-c'
         - 'sleep 30 && /app -port 8080 -DSN "catalogue_user:default_password@tcp(localhost:3306)/socksdb"'
-        # - 'sleep 30 && /app -port 8080 -DSN "catalogue_user:default_password@tcp(catalogue-db:3306)/socksdb"'
       endpoints:
         - name: catalogue
           targetPort: 8080
@@ -58,89 +57,10 @@ components:
   - name: catalogue-volume
     volume:
       ephemeral: true
-  # - name: carts
-  #   container:
-  #     image: weaveworksdemos/carts:0.4.8
-  #     env:
-  #       - name: JAVA_OPTS
-  #         value: -Xms64m -Xmx128m -XX:+UseG1GC -Djava.security.egd=file:/dev/urandom -Dspring.zipkin.enabled=false
-  #     cpuLimit: 300m
-  #     memoryLimit: 500Mi
-  #     cpuRequest: 100m
-  #     memoryRequest: 200Mi
-  # - name: carts-db
-  #   container:
-  #     image: mongo
-  #     env:
-  #       - name: reschedule
-  #         value: on-node-failure
-  #     volumeMounts:
-  #       - name: mongo-volume
-  #         path: /data/db
-  # - name: mongo-volume
-  #   volume:
-  #     ephemeral: true
-  # - name: orders
-  #   container:
-  #     image: weaveworksdemos/orders
-  #     env:
-  #       - name: reschedule
-  #         value: on-node-failure
-  # - name: orders-db
-  #   container:
-  #     image: mongo
-  #     env:
-  #       - name: reschedule
-  #         value: on-node-failure
-  # - name: shipping
-  #   container:
-  #     image: weaveworksdemos/shipping
-  #     env:
-  #       - name: reschedule
-  #         value: on-node-failure
-  # - name: queue-master
-  #   container:
-  #     image: weaveworksdemos/queue-master
-  #   #    volumes:
-  #   #      - /var/run/docker.sock:/var/run/docker.sock
-  #     env:
-  #       - name: reschedule
-  #         value: on-node-failure
-  # - name: rabbitmq
-  #   container:
-  #     image: rabbitmq:3
-  #     env:
-  #       - name: reschedule
-  #         value: on-node-failure
-  # - name: payment
-  #   container:
-  #     image: weaveworksdemos/payment
-  #     env:
-  #       - name: reschedule
-  #         value: on-node-failure
-  #     command:
-  #       - '/app'
-  #     args:
-  #       - '-port=80'
-  #       - '-decline=999'
-  # - name: user
-  #   container:
-  #     image: weaveworksdemos/user
-  #     env:
-  #       - name: reschedule
-  #         value: on-node-failure
-  #       - name: MONGO_HOST
-  #         value: user-db:27017
-  # - name: user-db
-  #   container:
-  #     image: weaveworksdemos/user-db
-  #     env:
-  #       - name: reschedule
-  #         value: on-node-failure
 commands:
   - id: init-project
     exec:
-      component: afrontend
+      component: frontend
       commandLine: yarn install
       workingDir: $PROJECT_SOURCE
 events:
