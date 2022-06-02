@@ -59,6 +59,6 @@ commands:
       component: frontend
       commandLine: yarn install
       workingDir: $PROJECT_SOURCE
-events:
-  postStart:
-    - init-project
+# events:
+#   postStart:
+#     - init-project
