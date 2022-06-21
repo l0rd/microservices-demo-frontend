@@ -75,6 +75,21 @@ components:
       memoryLimit: 300Mi
       cpuRequest: 100m
       memoryRequest: 100Mi
+      env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          value: root
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          value: rootpassword
+      volumeMounts:
+        - name: carts-volume
+          path: /data/db
+      endpoints:
+        - name: carts-db
+          targetPort: 27017
+          exposure: internal
+  - name: carts-volume
+    volume:
+      ephemeral: true
 commands:
   - id: init-project
     exec:
