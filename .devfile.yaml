@@ -25,7 +25,7 @@ components:
       command:
         - sh
       args:
-        - '-c'
+        - "-c"
         - 'sleep 30 && /app -port 8080 -DSN "catalogue_user:default_password@tcp(localhost:3306)/socksdb"'
       endpoints:
         - name: catalogue
@@ -39,10 +39,10 @@ components:
       cpuRequest: 100m
       memoryRequest: 100Mi
       env:
-      - name: MYSQL_ROOT_PASSWORD
-        value: fake_password
-      - name: MYSQL_DATABASE
-        value: socksdb
+        - name: MYSQL_ROOT_PASSWORD
+          value: fake_password
+        - name: MYSQL_DATABASE
+          value: socksdb
       volumeMounts:
         - name: catalogue-volume
           path: /var/lib/mysql
@@ -51,6 +51,43 @@ components:
           targetPort: 3360
           exposure: internal
   - name: catalogue-volume
+    volume:
+      ephemeral: true
+  - name: carts
+    container:
+      image: weaveworksdemos/carts:0.4.8
+      cpuLimit: 200m
+      memoryLimit: 200Mi
+      cpuRequest: 100m
+      memoryRequest: 100Mi
+      env:
+        - name: JAVA_OPTS
+          value: -Xms64m -Xmx128m -XX:+UseG1GC -Djava.security.egd=file:/dev/urandom -Dspring.zipkin.enabled=false
+      command:
+        - sh
+      args:
+        - "-c"
+        - "sleep 30 && /usr/local/bin/java.sh -jar ./app.jar --port=80"
+  - name: carts-db
+    container:
+      image: mongo:3.4
+      cpuLimit: 200m
+      memoryLimit: 300Mi
+      cpuRequest: 100m
+      memoryRequest: 100Mi
+      env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          value: root
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          value: rootpassword
+      volumeMounts:
+        - name: carts-volume
+          path: /data/db
+      endpoints:
+        - name: carts-db
+          targetPort: 27017
+          exposure: internal
+  - name: carts-volume
     volume:
       ephemeral: true
 commands:
